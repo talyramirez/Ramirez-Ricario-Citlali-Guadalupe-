@@ -1,20 +1,16 @@
-#!/bin/bash
+#! /bint/bash
 
-#
-declare -a urls=("https://www.google.com" "https://www.github.com" "https://www.microsoft.com")
+declare -a urls=( "https://www.redhat.com" "https://www.oracle.com" "https://www.ibm.com")
 
-#
-file=$(mktemp)
-printf "%s\n" "$(date)" > "$file"
+file=urls2.log
 
-#
+while true; do
+  printf "$(date)\n" > "$file" 
 for url in "${urls[@]}"; do
-    status=$(curl -m 10 -s -o /dev/null -w "%{http_code}" "$url")
-    printf "%s,%s\n" "$url" "$status" >> "$file"
+          status=$(curl -m 10 -s -I $url | head -n 1 | awk '{print $2}')
+          printf "$url,$status\n" >> "$file"
 done
-
-#
-column -s , -t "$file"
-
-
-rm -f "$file"
+column -s, -t "$file" 
+#rm -f "$file"
+sleep 10
+done
