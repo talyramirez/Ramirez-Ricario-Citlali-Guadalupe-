@@ -1,0 +1,8 @@
+- name: Instalar características de Windows (IIS)
+  hosts: windows
+  tasks:
+    - name: Instalar IIS
+      win_feature:
+        name: Web-Server
+        state: present
+
